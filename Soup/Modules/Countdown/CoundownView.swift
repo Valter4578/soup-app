@@ -29,6 +29,9 @@ struct CoundownView: View {
                 }, label: "We've met")
             }
         }
+        .overlay {
+            ConfettiView()
+        }
     }
     
     // MARK: - Subviews
