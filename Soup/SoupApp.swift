@@ -11,7 +11,7 @@ import SwiftUI
 struct SoupApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CoundownView()
         }
     }
 }

@@ -10,7 +10,7 @@ enum AppColors {
     enum Common {
         static let primary = Color("Lavander")
         static let secondary = Color("Pink")
-        
+        static let buttonColor = Color("ButtonColor").opacity(0.7)
         
     }
     
@@ -21,6 +21,14 @@ enum AppColors {
                 startPoint: .top,
                 endPoint: .bottom
             )
+        }
+    }
+    
+    enum MeshGradientsColours {
+        enum PurpleGradient {
+            static let start = Color(hex: "#FE8FDA")
+            static let middle = Color(hex: "#A685FF")
+            static let end = Color(hex: "#B3A4FF")
         }
     }
 }

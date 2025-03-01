@@ -29,9 +29,38 @@
 		886EE3B12D7223B5005E1534 /* SoupUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoupUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		8832B0682D72E0470079684B /* Exceptions for "Soup" folder in "SoupTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets/Fonts/boorsok.ttf,
+			);
+			target = 886EE3A62D7223B5005E1534 /* SoupTests */;
+		};
+		8832B0692D72E0470079684B /* Exceptions for "Soup" folder in "SoupUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets/Fonts/boorsok.ttf,
+			);
+			target = 886EE3B02D7223B5005E1534 /* SoupUITests */;
+		};
+		8832B06B2D72E05E0079684B /* Exceptions for "Soup" folder in "Soup" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 886EE3962D7223B4005E1534 /* Soup */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		886EE3992D7223B4005E1534 /* Soup */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8832B06B2D72E05E0079684B /* Exceptions for "Soup" folder in "Soup" target */,
+				8832B0682D72E0470079684B /* Exceptions for "Soup" folder in "SoupTests" target */,
+				8832B0692D72E0470079684B /* Exceptions for "Soup" folder in "SoupUITests" target */,
+			);
 			path = Soup;
 			sourceTree = "<group>";
 		};
@@ -399,6 +428,7 @@
 				DEVELOPMENT_TEAM = 44ZWCLCJ2W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Soup/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -428,6 +458,7 @@
 				DEVELOPMENT_TEAM = 44ZWCLCJ2W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Soup/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
