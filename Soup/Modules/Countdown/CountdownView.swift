@@ -1,14 +1,16 @@
 //
-//  CoundownView.swift
+//  CountdownView.swift
 //  Soup
 //
 //  Created by Максим Алексеев  on 01.03.2025.
 //
 
 import SwiftUI
-import UIKit
 
-struct CoundownView: View {
+struct CountdownView: View {
+    // MARK: - Dependencies
+    @State private var viewModel = CountdownViewModel()
+    
     // MARK: - View body
     var body: some View {
         ZStack {
@@ -19,18 +21,21 @@ struct CoundownView: View {
             VStack(spacing: .zero) {
                 BorderedTextView(text: "Next meeting in")
                     .padding(.bottom, 40)
-                Text("00:00:00")
+                Text(viewModel.formattedTime)
                     .foregroundStyle(.white)
                     .font(Font.custom("Borsok", size: 60))
                     .padding(.bottom, 74)
                 
                 ButtonView(withStroke: true ,action: {
-                    print("Button tapped")
+                    viewModel.stopTimer()
                 }, label: "We've met")
             }
         }
         .overlay {
             ConfettiView()
+        }
+        .onAppear {
+            viewModel.startTimer()
         }
     }
     
@@ -39,5 +44,5 @@ struct CoundownView: View {
 }
 
 #Preview {
-    CoundownView()
+    CountdownView()
 }

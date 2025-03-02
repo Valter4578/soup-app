@@ -23,7 +23,18 @@ struct SoupApp: App {
     
     var body: some Scene {
         WindowGroup {
-            CoundownView()
+            WithTabBar { tab in
+                switch tab {
+                case .map:
+                    MapView()
+                case .feelings:
+                    MapView()
+                case .countdown:
+                    CountdownView()
+                case .partner:
+                    CountdownView()
+                }
+            }
         }
     }
 }

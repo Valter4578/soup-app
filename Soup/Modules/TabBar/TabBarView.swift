@@ -56,7 +56,8 @@ struct TabBarView: View {
                 }
                 .symbolEffect(.bounce.up.byLayer, value: symbolTrigger)
                 .foregroundStyle(tab.item.color)
-                .withTabButtonStyle()}
+                .withTabButtonStyle()
+            }
         }
         .padding(.vertical, 10)
         .padding(.horizontal, 20)
