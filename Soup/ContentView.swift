@@ -8,17 +8,31 @@
 import SwiftUI
 
 struct ContentView: View {
+    var shouldShowAuth: Bool
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        if shouldShowAuth {
+            AuthView()
+        } else {
+            WithTabBar { tab in
+                switch tab {
+                case .map:
+                    MapView()
+                case .feelings:
+                    MapView()
+                case .countdown:
+                    CountdownView()
+                case .partner:
+                    CountdownView()
+                }
+            }
         }
-        .padding()
     }
 }
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView(shouldShowAuth: Binding(get: {
+//        return true
+//    }, set: { _ in
+//            
+//    }))
+//}
