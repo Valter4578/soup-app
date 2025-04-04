@@ -20,6 +20,7 @@ struct WithTabBar<Content>: View where Content: View {
             .frame(width: proxy.size.width, height: proxy.size.height)
             .overlay(alignment: .bottom) {
                 TabBarView(selection: $selection)
+                    .zIndex(10)
             }
         }
     }
@@ -32,11 +33,9 @@ struct TabBarView: View {
     @Namespace private var tabItemNameSpace
     
     func changeTabTo(_ tab: Tabs) {
-//        withAnimation(.bouncy(duration: 0.4, extraBounce: 0.15)) {
         withAnimation(.bouncy(duration: 0.4, extraBounce: 0.1)) {
             selection = tab
         }
-//        }
         
         symbolTrigger.toggle()
     }

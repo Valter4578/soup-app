@@ -9,6 +9,9 @@ import Foundation
 
 @Observable
 class FeelingsViewModel {
+    // MARK: - Dependencies
+    
+    // MARK: - Properties
     let partnersLastFeeling = Feeling(name: "Happy", emojiText: "😊", color: .orange)
     
     let feelings: [Feeling] = [
@@ -20,8 +23,17 @@ class FeelingsViewModel {
         Feeling(name: "Disgusted", emojiText: "🤢", color: .orange)
     ]
     
+    // MARK: - Inits
+
+    
+    // MARK: - Functions
+    
     func feelingText() -> String {
         let partnerName = "Emily" // TODO: - hardcoded for now fix later
         return "\(partnerName) feels \(partnersLastFeeling.name.lowercased()) today"
+    }
+    
+    func sendFeeling(_ feeling: Feeling) {
+        
     }
 }

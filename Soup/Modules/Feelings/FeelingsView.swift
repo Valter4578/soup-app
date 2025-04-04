@@ -47,11 +47,14 @@ struct FeelingsView: View {
                     .font(.system(size: 22, weight: .bold))
                     .padding(.top, 20)
                 
-                FeelingsGridView(viewModel: viewModel)
+                FeelingsGridView(viewModel: viewModel, feelingSelected: { feeling in
+                    <#code#>
+                })
                     .presentationDetents([.fraction(0.42), .large])
                     .presentationCornerRadius(50)
-                    .presentationBackgroundInteraction(.enabled) //
+                    .presentationBackgroundInteraction(.enabled)
             }
+            .zIndex(99)
         }
     }
 }
