@@ -1,0 +1,19 @@
+{
+	"name": "xcode build server",
+	"version": "0.2",
+	"bspVersion": "2.0",
+	"languages": [
+		"c",
+		"cpp",
+		"objective-c",
+		"objective-cpp",
+		"swift"
+	],
+	"argv": [
+		"/opt/homebrew/bin/xcode-build-server"
+	],
+	"workspace": "/Users/maksimalekseev/Developer/Soup/Soup.xcodeproj/project.xcworkspace",
+	"build_root": "/Volumes/KINGSTON/Developer/Xcode/DerrivedData/Soup-hjmqhdrjwcbpjdaknxelnnheatdk",
+	"scheme": "Soup",
+	"kind": "xcode"
+}

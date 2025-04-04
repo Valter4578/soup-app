@@ -8,6 +8,30 @@
 import SwiftUI
 
 extension Color {
+    /// Returns the hex string representation of the Color (ignoring the alpha component).
+    var hex: String? {
+        // Convert SwiftUI Color to UIColor.
+        let uiColor = UIColor(self)
+        
+        // Variables to hold the color components.
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        
+        // Extract RGBA components.
+        if uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha) {
+            // Convert components to integers (0...255).
+            let r = Int(red * 255)
+            let g = Int(green * 255)
+            let b = Int(blue * 255)
+            // Return formatted hex string.
+            return String(format: "#%02X%02X%02X", r, g, b)
+        }
+        return nil
+    }
+
+    /// Inits Color with hex string 
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         var int: UInt64 = 0

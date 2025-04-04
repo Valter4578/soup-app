@@ -48,7 +48,7 @@ struct FeelingsView: View {
                     .padding(.top, 20)
                 
                 FeelingsGridView(viewModel: viewModel, feelingSelected: { feeling in
-                    <#code#>
+                    
                 })
                     .presentationDetents([.fraction(0.42), .large])
                     .presentationCornerRadius(50)
