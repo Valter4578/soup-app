@@ -18,7 +18,7 @@ struct FeelingsView: View {
     // MARK: - View body
     var body: some View {
         ZStack {
-            viewModel.partnersLastFeeling.color
+            viewModel.partnersLastFeeling.colorScheme.background
                 .ignoresSafeArea()
             VStack {
                 ZStack {

@@ -19,13 +19,13 @@ struct FeelingCellView: View {
                 .font(.system(size: 16, weight: .bold))
         }
         .frame(width: 174, height: 144)
-        .background(feeling.color)
+        .background(feeling.colorScheme.primary)
         .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }
 
 #Preview {
     ZStack {
-        FeelingCellView(feeling: Feeling(name: "Happy", emojiText: "😊", color: .yellow))
+        FeelingCellView(feeling: Feeling.angry)
     }
 }

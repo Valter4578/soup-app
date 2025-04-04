@@ -104,7 +104,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "273F369F-8599-4E5B-B217-04A60AF2361F"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Soup/Service/FirebaseDatabaseService.swift"
@@ -120,14 +120,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "D8157646-2A96-4398-904A-39F06636E3B3"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Soup/Service/FirebaseDatabaseService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "updateFeeling(feeling:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -200,53 +200,23 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "E97921CE-9D08-425A-974C-C3011086D875"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Soup/Modules/Feelings/FeelingsViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "listenPartnersFeeling()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "E97921CE-9D08-425A-974C-C3011086D875 - bef40487f4d0e433"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Soup.Feeling&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Soup.FeelingsViewModel.listenPartnersFeeling() -&gt; ()"
-                  moduleName = "Soup.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/maksimalekseev/Developer/Soup/Soup/Modules/Feelings/FeelingsViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "54"
-                  endingLineNumber = "54">
-               </Location>
-               <Location
-                  uuid = "E97921CE-9D08-425A-974C-C3011086D875 - bef40487f4d0e433"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Soup.Feeling&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Soup.FeelingsViewModel.listenPartnersFeeling() -&gt; ()"
-                  moduleName = "Soup.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/maksimalekseev/Developer/Soup/Soup/Modules/Feelings/FeelingsViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "54"
-                  endingLineNumber = "54">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "49D7F3C0-2C54-4675-8252-002C618B060D"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Soup/Service/FirebaseDatabaseService.swift"
@@ -254,52 +224,6 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "180"
             endingLineNumber = "180"
-            landmarkName = "listenToPartnerFeeling(partnerId:onChange:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "49D7F3C0-2C54-4675-8252-002C618B060D - a547f366a429ac11"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Soup.FirebaseDatabaseService.listenToPartnerFeeling(partnerId: Swift.String, onChange: (Swift.Optional&lt;Soup.Feeling&gt;) -&gt; ()) -&gt; Swift.Optional&lt;Swift.UInt&gt;"
-                  moduleName = "Soup.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/maksimalekseev/Developer/Soup/Soup/Service/FirebaseDatabaseService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "180"
-                  endingLineNumber = "180">
-               </Location>
-               <Location
-                  uuid = "49D7F3C0-2C54-4675-8252-002C618B060D - e334aec8213ae72d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.FIRDataSnapshot) -&gt; () in Soup.FirebaseDatabaseService.listenToPartnerFeeling(partnerId: Swift.String, onChange: (Swift.Optional&lt;Soup.Feeling&gt;) -&gt; ()) -&gt; Swift.Optional&lt;Swift.UInt&gt;"
-                  moduleName = "Soup.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/maksimalekseev/Developer/Soup/Soup/Service/FirebaseDatabaseService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "180"
-                  endingLineNumber = "180">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "2F3852B7-3104-43DC-8397-AEBFC83135CF"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Soup/Service/FirebaseDatabaseService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
             landmarkName = "listenToPartnerFeeling(partnerId:onChange:)"
             landmarkType = "7">
          </BreakpointContent>
