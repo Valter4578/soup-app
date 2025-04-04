@@ -18,7 +18,7 @@ struct ContentView: View {
                 case .map:
                     MapView()
                 case .feelings:
-                    MapView()
+                    FeelingsView()
                 case .countdown:
                     CountdownView()
                 case .partner:

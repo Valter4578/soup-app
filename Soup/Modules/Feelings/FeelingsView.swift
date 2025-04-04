@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FeelingsView: View {
     // MARK: - Dependencies
+    @Environment(FirebaseDatabaseService.self) private var firebaseDatabaseService
     @State private var viewModel = FeelingsViewModel()
     
     // MARK: - Properties
@@ -41,6 +42,10 @@ struct FeelingsView: View {
             }
             .padding(.horizontal, 105)
         }
+        .onAppear {
+            viewModel = FeelingsViewModel(databaseService: firebaseDatabaseService)
+            viewModel.listenPartnersFeeling()
+        }
         .sheet(isPresented: $isSheetPresented) {
             VStack(spacing: 20) {
                 Text("What about you?")
@@ -48,7 +53,7 @@ struct FeelingsView: View {
                     .padding(.top, 20)
                 
                 FeelingsGridView(viewModel: viewModel, feelingSelected: { feeling in
-                    
+                    viewModel.sendFeeling(feeling)
                 })
                     .presentationDetents([.fraction(0.42), .large])
                     .presentationCornerRadius(50)

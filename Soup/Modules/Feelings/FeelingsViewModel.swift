@@ -10,9 +10,10 @@ import Foundation
 @Observable
 class FeelingsViewModel {
     // MARK: - Dependencies
+    private var databaseService: DatabaseServiceProtocol?
     
     // MARK: - Properties
-    let partnersLastFeeling = Feeling(name: "Happy", emojiText: "😊", color: .orange)
+    var partnersLastFeeling = Feeling(name: "Happy", emojiText: "😊", color: .orange)
     
     let feelings: [Feeling] = [
         Feeling(name: "Happy", emojiText: "😊", color: .yellow),
@@ -24,7 +25,9 @@ class FeelingsViewModel {
     ]
     
     // MARK: - Inits
-
+    init(databaseService: DatabaseServiceProtocol? = nil) {
+        self.databaseService = databaseService
+    }
     
     // MARK: - Functions
     
@@ -34,6 +37,23 @@ class FeelingsViewModel {
     }
     
     func sendFeeling(_ feeling: Feeling) {
-        
+        databaseService?.updateFeeling(feeling: feeling) { error in
+            print(error)
+        }
+    }
+    
+    func listenPartnersFeeling() {
+        databaseService?.getPartner { partnerId, error in
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            guard let partnerId = partnerId else { return }
+            self.databaseService?.listenToPartnerFeeling(partnerId: partnerId) { feeling in
+                guard let feeling = feeling else { return }
+                self.partnersLastFeeling = feeling
+            }
+        }
     }
 }

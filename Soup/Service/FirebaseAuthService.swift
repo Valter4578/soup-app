@@ -46,6 +46,7 @@ class FirebaseAuthService: AuthServiceProtocol {
         Auth.auth().addStateDidChangeListener { [weak self] _, user in
             guard let self = self else { return }
             self.user = user
+            print("Sing in with user \(user?.email)")
             
         }
     }

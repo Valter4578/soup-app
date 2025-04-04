@@ -24,6 +24,7 @@ protocol DatabaseServiceProtocol {
     func updateFeeling(feeling: Feeling, completion: @escaping (Error?) -> Void)
     func getLastFeeling(completion: @escaping (Feeling?, Error?) -> Void)
     func getLastFeeling(forUser userId: String, completion: @escaping (Feeling?, Error?) -> Void)
+    func listenToPartnerFeeling(partnerId: String, onChange: @escaping (Feeling?) -> Void) -> DatabaseHandle? 
 }
 
 @Observable
@@ -86,7 +87,6 @@ class FirebaseDatabaseService: DatabaseServiceProtocol {
     }
     
     // MARK: - Location Management
-    
     func updateLocation(location: CLLocation, completion: @escaping (Error?) -> Void) {
         guard let userPath = userPath else {
             completion(NSError(domain: "FirebaseService", code: 401, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"]))
@@ -158,14 +158,13 @@ class FirebaseDatabaseService: DatabaseServiceProtocol {
             guard let feelingData = snapshot.value as? [String: Any],
                   let name = feelingData["name"] as? String,
                   let emojiText = feelingData["emojiText"] as? String,
-                  let colorHex = feelingData["colorHex"] as? String else {
+                  let colorHex = feelingData["colorName"] as? String else {
                 completion(nil, nil) // No feeling data yet
                 return
             }
             
             // Convert hex back to Color
-            let color = Color(hex: colorHex) ?? .black // Assuming you have Color+Hex.swift extension
-            
+            let color = Color(hex: colorHex) ?? .black
             let feeling = Feeling(name: name, emojiText: emojiText, color: color)
             completion(feeling, nil)
         }
@@ -181,7 +180,7 @@ class FirebaseDatabaseService: DatabaseServiceProtocol {
             guard let feelingData = snapshot.value as? [String: Any],
                   let name = feelingData["name"] as? String,
                   let emojiText = feelingData["emojiText"] as? String,
-                  let colorHex = feelingData["colorHex"] as? String else {
+                  let colorHex = feelingData["colorName"] as? String else {
                 onChange(nil)
                 return
             }
