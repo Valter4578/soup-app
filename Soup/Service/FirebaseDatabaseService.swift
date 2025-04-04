@@ -131,8 +131,6 @@ class FirebaseDatabaseService: DatabaseServiceProtocol {
         do {
             let feelingData: [String: Any] = [
                 "name": feeling.name,
-                "emojiText": feeling.emojiText,
-                "colorName": feeling.color.hex,
                 "timestamp": ServerValue.timestamp()
             ]
             
@@ -154,18 +152,14 @@ class FirebaseDatabaseService: DatabaseServiceProtocol {
     func getLastFeeling(forUser userId: String, completion: @escaping (Feeling?, Error?) -> Void) {
         let userRef = Database.database().reference().child("users/\(userId)/lastFeeling")
         
-        userRef.observeSingleEvent(of: .value) { snapshot, _ in
+        userRef.observeSingleEvent(of: .value) { snapshot, _  in
             guard let feelingData = snapshot.value as? [String: Any],
-                  let name = feelingData["name"] as? String,
-                  let emojiText = feelingData["emojiText"] as? String,
-                  let colorHex = feelingData["colorName"] as? String else {
+                  let name = feelingData["name"] as? String else {
                 completion(nil, nil) // No feeling data yet
                 return
             }
             
-            // Convert hex back to Color
-            let color = Color(hex: colorHex) ?? .black
-            let feeling = Feeling(name: name, emojiText: emojiText, color: color)
+            let feeling = Feeling(rawValue: name)
             completion(feeling, nil)
         }
     }
@@ -176,17 +170,14 @@ class FirebaseDatabaseService: DatabaseServiceProtocol {
     func listenToPartnerFeeling(partnerId: String, onChange: @escaping (Feeling?) -> Void) -> DatabaseHandle? {
         let partnerRef = Database.database().reference().child("users/\(partnerId)/lastFeeling")
         
-        return partnerRef.observe(.value) { snapshot in
+        return partnerRef.observe(.value) { snapshot, _  in
             guard let feelingData = snapshot.value as? [String: Any],
-                  let name = feelingData["name"] as? String,
-                  let emojiText = feelingData["emojiText"] as? String,
-                  let colorHex = feelingData["colorName"] as? String else {
+                  let name = feelingData["name"] as? String else {
                 onChange(nil)
                 return
             }
             
-            let color = Color(hex: colorHex) ?? .black
-            let feeling = Feeling(name: name, emojiText: emojiText, color: color)
+            let feeling = Feeling(rawValue: name)
             onChange(feeling)
         }
     }

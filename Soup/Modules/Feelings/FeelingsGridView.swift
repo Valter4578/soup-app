@@ -20,7 +20,7 @@ struct FeelingsGridView: View {
                 ],
                 spacing: 10
             ) {
-                ForEach(viewModel.feelings, id: \.name) { feeling in
+                ForEach(viewModel.feelings, id: \.rawValue) { feeling in
                     FeelingCellView(feeling: feeling)
                         .onTapGesture {
                             feelingSelected?(feeling)
