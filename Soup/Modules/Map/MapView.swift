@@ -9,6 +9,8 @@ import SwiftUI
 import MapKit
 
 struct MapView: View {
+    @Environment(ThemeManager.self) private var themeManager
+    
     @State private var position = MapCameraPosition.region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275),
@@ -30,7 +32,9 @@ struct MapView: View {
                         .multilineTextAlignment(.center)
                         .padding()
                         .background(
-                            AppColors.Gradients.primaryGradient
+                            themeManager.currentScheme.gradient
+//                            AppColors.Gradients.primaryGradient
+                            
                         )
                         .clipShape(RoundedRectangle(cornerRadius: 50))
                     

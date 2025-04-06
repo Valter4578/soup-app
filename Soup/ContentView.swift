@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    
     var shouldShowAuth: Bool
     var body: some View {
         if shouldShowAuth {

@@ -12,17 +12,18 @@ import SwiftUI
 @main
 struct SoupApp: App {
     init() {
-        print("@main init")
         FirebaseApp.configure()
         _firebaseAuthService = State(initialValue: FirebaseAuthService())
         _firebaseDatabaseService = State(initialValue: FirebaseDatabaseService())
+        _themeManager = State(initialValue: ThemeManager(databaseService: firebaseDatabaseService!))
     }
 
     // MARK: - Dependencies
 
     @State private var firebaseAuthService: FirebaseAuthService?
     @State private var firebaseDatabaseService: FirebaseDatabaseService?
-
+    @State private var themeManager: ThemeManager?
+    
     // MARK: - Properties
 
     private var cancellables: Set<AnyCancellable> = []
@@ -38,6 +39,10 @@ struct SoupApp: App {
             ContentView(shouldShowAuth: firebaseAuthService?.user == nil)
                 .environment(firebaseAuthService)
                 .environment(firebaseDatabaseService)
+                .environment(themeManager)
+                .onAppear {
+                    themeManager?.listenToFeelingChanges()
+                }
         }
     }
 }

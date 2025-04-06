@@ -10,6 +10,8 @@ import SwiftUI
 struct FeelingsView: View {
     // MARK: - Dependencies
     @Environment(FirebaseDatabaseService.self) private var firebaseDatabaseService
+    @Environment(ThemeManager.self) private var themeManager
+    
     @State private var viewModel = FeelingsViewModel()
     
     // MARK: - Properties
@@ -18,8 +20,9 @@ struct FeelingsView: View {
     // MARK: - View body
     var body: some View {
         ZStack {
-            viewModel.partnersLastFeeling.colorScheme.background
+            themeManager.currentScheme.background
                 .ignoresSafeArea()
+            
             VStack {
                 ZStack {
                     Circle()

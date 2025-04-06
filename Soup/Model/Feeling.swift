@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 
-
 enum Feeling: String, CaseIterable {
     case happy
     case horny

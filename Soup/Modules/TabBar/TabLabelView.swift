@@ -13,6 +13,7 @@ let BTTN_HEIGHT: CGFloat = 32
 let CORNER_RADIUS: CGFloat = 50
 
 struct ActiveTabLabel: View {
+    @Environment(ThemeManager.self) private var themeManager
     let tabItem: TabBarItem
 
     var body: some View {
@@ -31,7 +32,7 @@ struct ActiveTabLabel: View {
             }
             .padding(.vertical, 4)
             .padding(.horizontal, 10)
-            .background(AppColors.Gradients.primaryGradient)
+            .background(themeManager.currentScheme.gradient)
             .clipShape(RoundedRectangle(cornerRadius: CORNER_RADIUS))
         }
     }
