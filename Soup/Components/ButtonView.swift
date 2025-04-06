@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ButtonView: View {
+    @Environment(ThemeManager.self) private var themeManager
+
     var withStroke: Bool = false
     var action: () -> Void
     var label: String
@@ -23,7 +25,7 @@ struct ButtonView: View {
                 .padding(.horizontal, 30)
                 .background(
                     Capsule()
-                        .fill(AppColors.Common.buttonColor)
+                        .fill(themeManager.currentScheme.primary)
                         .strokeBorder(.white, lineWidth: withStroke ? 0.5 : 0)
                 )
         }
@@ -32,7 +34,6 @@ struct ButtonView: View {
 
 #Preview {
     ZStack {
-        AppColors.Common.primary
         
         ButtonView(withStroke: true, action: {
             print("Button tapped")

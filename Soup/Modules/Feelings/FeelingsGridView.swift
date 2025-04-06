@@ -10,7 +10,7 @@ import SwiftUI
 struct FeelingsGridView: View {
     let viewModel: FeelingsViewModel
     var feelingSelected: ((Feeling) -> ())?
-        
+    
     var body: some View {
         ScrollView {
             LazyVGrid(
@@ -27,7 +27,8 @@ struct FeelingsGridView: View {
                         }
                 }
             }
-            .padding(.horizontal, 16)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal)
         }
     }
 }

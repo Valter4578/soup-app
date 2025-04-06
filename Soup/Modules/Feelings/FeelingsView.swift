@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import BottomSheet // cause i fucking hate apple's bottom sheet
 
 struct FeelingsView: View {
     // MARK: - Dependencies
@@ -16,6 +17,7 @@ struct FeelingsView: View {
     
     // MARK: - Properties
     @State private var isSheetPresented = true
+    @State var bottomSheetPosition: BottomSheetPosition = .relative(0.4)
     
     // MARK: - View body
     var body: some View {
@@ -49,7 +51,10 @@ struct FeelingsView: View {
             viewModel = FeelingsViewModel(databaseService: firebaseDatabaseService)
             viewModel.listenPartnersFeeling()
         }
-        .sheet(isPresented: $isSheetPresented) {
+        .bottomSheet(bottomSheetPosition: $bottomSheetPosition, switchablePositions: [
+            .relative(0.4),
+            .relativeTop(0.975)
+        ]) {
             VStack(spacing: 20) {
                 Text("What about you?")
                     .font(.system(size: 22, weight: .bold))
@@ -58,12 +63,15 @@ struct FeelingsView: View {
                 FeelingsGridView(viewModel: viewModel, feelingSelected: { feeling in
                     viewModel.sendFeeling(feeling)
                 })
-                    .presentationDetents([.fraction(0.42), .large])
-                    .presentationCornerRadius(50)
-                    .presentationBackgroundInteraction(.enabled)
             }
-            .zIndex(99)
         }
+        .dragIndicatorColor(AppColors.Common.secondary)
+        .enableContentDrag(true)
+        .customBackground(
+            Color.white
+                .cornerRadius(30)
+            
+        )
     }
 }
 

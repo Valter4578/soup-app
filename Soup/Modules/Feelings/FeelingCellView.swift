@@ -18,9 +18,11 @@ struct FeelingCellView: View {
                 .foregroundStyle(.white)
                 .font(.system(size: 16, weight: .bold))
         }
-        .frame(width: 174, height: 144)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 20)
         .background(feeling.colorScheme.primary)
         .clipShape(RoundedRectangle(cornerRadius: 20))
+        
     }
 }
 
