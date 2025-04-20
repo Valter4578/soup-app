@@ -5,9 +5,9 @@
 //  Created by Максим Алексеев  on 02.03.2025.
 //
 
+import CoreLocation
 import FirebaseAuth
 import FirebaseDatabase
-import CoreLocation
 import SwiftUI
 
 // Protocol that any database service must implement
@@ -15,57 +15,56 @@ protocol DatabaseServiceProtocol {
     // Partner management
     func setPartner(partnerId: String, completion: @escaping (Error?) -> Void)
     func getPartner(completion: @escaping (String?, Error?) -> Void)
-    
+
     // Location management
     func updateLocation(location: CLLocation, completion: @escaping (Error?) -> Void)
     func getLocation(forUser userId: String, completion: @escaping (CLLocation?, Error?) -> Void)
-    
+
     // Feeling management
     func updateFeeling(feeling: Feeling, completion: @escaping (Error?) -> Void)
     func getLastFeeling(completion: @escaping (Feeling?, Error?) -> Void)
     func getLastFeeling(forUser userId: String, completion: @escaping (Feeling?, Error?) -> Void)
-    func listenToPartnerFeeling(partnerId: String, onChange: @escaping (Feeling?) -> Void) -> DatabaseHandle? 
+    func getFeelings(completion: @escaping ([FeelingResponse]?, Error?) -> Void)
+    func listenToPartnerFeeling(partnerId: String, onChange: @escaping (Feeling?) -> Void) -> DatabaseHandle?
 }
 
 @Observable
 class FirebaseDatabaseService: DatabaseServiceProtocol {
-    
     @ObservationIgnored
     private lazy var userPath: DatabaseReference? = {
         guard let uid = Auth.auth().currentUser?.uid else {
             return nil
         }
-        
+
         let ref = Database.database()
             .reference()
             .child("users/\(uid)")
         return ref
     }()
-    
+
     @ObservationIgnored
-    private lazy var defaultPath: DatabaseReference? = {
-        Database.database().reference()
-    }()
-    
+    private lazy var defaultPath: DatabaseReference? = Database.database().reference()
+
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
-    
+
     // MARK: - Partner Management
+
     func setPartner(partnerId: String, completion: @escaping (Error?) -> Void) {
         guard let userPath = userPath else {
             completion(NSError(domain: "FirebaseService", code: 401, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"]))
             return
         }
-        
+
         userPath.child("partnerId").setValue(partnerId) { error, _ in
             completion(error)
         }
-        
+
         guard let currentUserId = Auth.auth().currentUser?.uid else {
             completion(NSError(domain: "FirebaseService", code: 401, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"]))
             return
         }
-        
+
         defaultPath?.child("users/\(partnerId)").child("partnerId").setValue(currentUserId) { error, _ in
             completion(error)
         }
@@ -76,7 +75,7 @@ class FirebaseDatabaseService: DatabaseServiceProtocol {
             completion(nil, NSError(domain: "FirebaseService", code: 401, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"]))
             return
         }
-        
+
         userPath.child("partnerId").observeSingleEvent(of: .value) { snapshot, _ in
             if let partnerId = snapshot.value as? String {
                 completion(partnerId, nil)
@@ -85,103 +84,140 @@ class FirebaseDatabaseService: DatabaseServiceProtocol {
             }
         }
     }
-    
+
     // MARK: - Location Management
+
     func updateLocation(location: CLLocation, completion: @escaping (Error?) -> Void) {
         guard let userPath = userPath else {
             completion(NSError(domain: "FirebaseService", code: 401, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"]))
             return
         }
-        
+
         let locationData: [String: Any] = [
             "latitude": location.coordinate.latitude,
             "longitude": location.coordinate.longitude,
-            "timestamp": ServerValue.timestamp()
+            "timestamp": ServerValue.timestamp(),
         ]
-        
+
         userPath.child("location").setValue(locationData) { error, _ in
             completion(error)
         }
     }
-    
+
     func getLocation(forUser userId: String, completion: @escaping (CLLocation?, Error?) -> Void) {
         let userRef = Database.database().reference().child("users/\(userId)/location")
-        
+
         userRef.observeSingleEvent(of: .value) { snapshot, _ in
             guard let locationData = snapshot.value as? [String: Any],
                   let latitude = locationData["latitude"] as? Double,
-                  let longitude = locationData["longitude"] as? Double else {
+                  let longitude = locationData["longitude"] as? Double
+            else {
                 completion(nil, nil) // No location data yet
                 return
             }
-            
+
             let location = CLLocation(latitude: latitude, longitude: longitude)
             completion(location, nil)
         }
     }
-    
+
     // MARK: - Feeling Management
+
     func updateFeeling(feeling: Feeling, completion: @escaping (Error?) -> Void) {
         guard let userPath = userPath else {
             completion(NSError(domain: "FirebaseService", code: 401, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"]))
             return
         }
-        
+
         // Need to convert Color to a storable format (e.g., hex string)
         do {
             let feelingData: [String: Any] = [
                 "name": feeling.name,
-                "timestamp": ServerValue.timestamp()
+                "timestamp": ServerValue.timestamp(),
             ]
-            
+
             userPath.child("lastFeeling").setValue(feelingData) { error, _ in
+                completion(error)
+            }
+
+            userPath.child("feelings").childByAutoId().setValue(feelingData) { error, _ in
                 completion(error)
             }
         }
     }
-    
+
+    func getFeelings(completion: @escaping ([FeelingResponse]?, Error?) -> Void) {
+        guard let userPath = userPath else {
+            completion(nil, NSError(domain: "FirebaseService", code: 401, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"]))
+            return
+        }
+
+        userPath.child("feelings").observeSingleEvent(of: .value) { snapshot, _ in
+
+            guard let feelingsData = snapshot.value as? [String: Any] else {
+                completion(nil, nil)
+                return
+            }
+
+            let feelingResponses = feelingsData.compactMap { value -> FeelingResponse? in
+                let uuid = value.key
+                
+                guard let data = value.value as? [String: Any],
+                      let name = data["name"] as? String,
+                      let timestamp = data["timestamp"] as? String,
+                      let feeling = Feeling(rawValue: name)
+                else { return nil }
+                return FeelingResponse(id: UUID(uuidString: uuid) ?? UUID(), feeling: feeling, timestamp: timestamp)
+            }
+
+            completion(feelingResponses, nil)
+        }
+    }
+
     func getLastFeeling(completion: @escaping (Feeling?, Error?) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else {
             completion(nil, NSError(domain: "FirebaseService", code: 401, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"]))
             return
         }
-        
+
         getLastFeeling(forUser: uid, completion: completion)
     }
-    
+
     func getLastFeeling(forUser userId: String, completion: @escaping (Feeling?, Error?) -> Void) {
         let userRef = Database.database().reference().child("users/\(userId)/lastFeeling")
-        
-        userRef.observeSingleEvent(of: .value) { snapshot, _  in
+
+        userRef.observeSingleEvent(of: .value) { snapshot, _ in
             guard let feelingData = snapshot.value as? [String: Any],
-                  let name = feelingData["name"] as? String else {
+                  let name = feelingData["name"] as? String
+            else {
                 completion(nil, nil) // No feeling data yet
                 return
             }
-            
+
             let feeling = Feeling(rawValue: name)
             completion(feeling, nil)
         }
     }
-    
+
     // MARK: - Real-time Listeners
-    
+
     // Example function to listen for partner's feeling changes
     func listenToPartnerFeeling(partnerId: String, onChange: @escaping (Feeling?) -> Void) -> DatabaseHandle? {
         let partnerRef = Database.database().reference().child("users/\(partnerId)/lastFeeling")
-        
-        return partnerRef.observe(.value) { snapshot, _  in
+
+        return partnerRef.observe(.value) { snapshot, _ in
             guard let feelingData = snapshot.value as? [String: Any],
-                  let name = feelingData["name"] as? String else {
+                  let name = feelingData["name"] as? String
+            else {
                 onChange(nil)
                 return
             }
-            
+
             let feeling = Feeling(rawValue: name)
             onChange(feeling)
         }
     }
-    
+
     // Function to remove a listener
     func removeListener(handle: DatabaseHandle, forPath path: String) {
         Database.database().reference().child(path).removeObserver(withHandle: handle)
