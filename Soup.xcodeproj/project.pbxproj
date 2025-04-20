@@ -10,6 +10,7 @@
 		8832B0742D72E9270079684B /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8832B0732D72E9270079684B /* FirebaseAnalytics */; };
 		8832B0762D72E9270079684B /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 8832B0752D72E9270079684B /* FirebaseAnalyticsOnDeviceConversion */; };
 		8832B0782D72E9270079684B /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 8832B0772D72E9270079684B /* FirebaseAppCheck */; };
+		884CEF342DA2C475002F1745 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 884CEF332DA2C475002F1745 /* BottomSheet */; };
 		8855EEF82D746FC000EE47DA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8855EEF72D746FC000EE47DA /* FirebaseAuth */; };
 		8855EF012D747B1400EE47DA /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 8855EF002D747B1400EE47DA /* FirebaseDatabase */; };
 /* End PBXBuildFile section */
@@ -92,6 +93,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8855EF012D747B1400EE47DA /* FirebaseDatabase in Frameworks */,
+				884CEF342DA2C475002F1745 /* BottomSheet in Frameworks */,
 				8832B0742D72E9270079684B /* FirebaseAnalytics in Frameworks */,
 				8832B0782D72E9270079684B /* FirebaseAppCheck in Frameworks */,
 				8832B0762D72E9270079684B /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
@@ -169,6 +171,7 @@
 				8832B0772D72E9270079684B /* FirebaseAppCheck */,
 				8855EEF72D746FC000EE47DA /* FirebaseAuth */,
 				8855EF002D747B1400EE47DA /* FirebaseDatabase */,
+				884CEF332DA2C475002F1745 /* BottomSheet */,
 			);
 			productName = Soup;
 			productReference = 886EE3972D7223B4005E1534 /* Soup.app */;
@@ -254,6 +257,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				8832B0722D72E9270079684B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				884CEF322DA2C475002F1745 /* XCRemoteSwiftPackageReference "BottomSheet" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 886EE3982D7223B4005E1534 /* Products */;
@@ -630,6 +634,14 @@
 				minimumVersion = 11.9.0;
 			};
 		};
+		884CEF322DA2C475002F1745 /* XCRemoteSwiftPackageReference "BottomSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lucaszischka/BottomSheet";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -647,6 +659,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8832B0722D72E9270079684B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAppCheck;
+		};
+		884CEF332DA2C475002F1745 /* BottomSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 884CEF322DA2C475002F1745 /* XCRemoteSwiftPackageReference "BottomSheet" */;
+			productName = BottomSheet;
 		};
 		8855EEF72D746FC000EE47DA /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
