@@ -8,36 +8,36 @@
 import SwiftUI
 
 struct FeelingHistoryCellView: View {
-    let feeling: Feeling
-    
+    let feelingResponse: FeelingResponse
+    let formattedTimeString: String
     var body: some View {
         HStack(spacing: 15) {
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
-                    .foregroundStyle(feeling.colorScheme.primary)
+                    .foregroundStyle(feelingResponse.feeling.colorScheme.primary)
                     .frame(width: 90, height: 90)
-                
-                Text(feeling.emojiText)
+
+                Text(feelingResponse.feeling.emojiText)
                     .font(.system(size: 70))
             }
             .padding(.vertical, 10)
             .padding(.leading, 10)
-            
+
             VStack(alignment: .leading, spacing: .zero) {
                 Text("PartnerName felt")
                     .foregroundStyle(AppColors.Common.secondary)
                     .font(.system(size: 16, weight: .semibold))
-                
-                Text(feeling.name.capitalized)
+
+                Text(feelingResponse.feeling.name.capitalized)
                     .foregroundStyle(AppColors.Common.dark)
                     .font(.system(size: 20, weight: .bold))
                     .padding(.bottom, 5)
-                
-                Text("10:00")
+
+                Text(formattedTimeString)
                     .foregroundStyle(AppColors.Common.secondary)
                     .font(.system(size: 14))
             }
-            
+
             Spacer()
         }
         .background(.white)
@@ -47,7 +47,7 @@ struct FeelingHistoryCellView: View {
 
 #Preview {
     ZStack {
-        Feeling.angry.colorScheme.background .ignoresSafeArea(.all)
-        FeelingHistoryCellView(feeling:   .angry)
+        Feeling.angry.colorScheme.background.ignoresSafeArea(.all)
+        FeelingHistoryCellView(feelingResponse: FeelingResponse(id: UUID(), feeling: .angry, timestamp: 1745149729458), formattedTimeString: "10:10")
     }
 }

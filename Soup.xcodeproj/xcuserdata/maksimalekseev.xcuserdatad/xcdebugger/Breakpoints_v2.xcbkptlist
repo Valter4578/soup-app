@@ -174,10 +174,10 @@
             filePath = "Soup/Service/FirebaseDatabaseService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
-            landmarkName = "FirebaseDatabaseService"
-            landmarkType = "3">
+            startingLineNumber = "232"
+            endingLineNumber = "232"
+            landmarkName = "listenToPartnerFeeling(partnerId:onChange:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -193,6 +193,22 @@
             startingLineNumber = "44"
             endingLineNumber = "44"
             landmarkName = "listenToFeelingChanges()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1CDD3333-18C4-428D-AFBA-EC54A37FD320"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Soup/Modules/FeelingHistory/FeelingHistoryViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "getFeelings()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

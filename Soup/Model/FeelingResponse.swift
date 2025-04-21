@@ -10,7 +10,8 @@ import Foundation
 struct FeelingResponse: Identifiable {
     let id: UUID
     let feeling: Feeling
-    let timestamp: String
+    /// seconds from 1970 
+    let timestamp: Int
 //    let audioData: Data?
 //    let photoData: Data?
 }

@@ -24,7 +24,7 @@ protocol DatabaseServiceProtocol {
     func updateFeeling(feeling: Feeling, completion: @escaping (Error?) -> Void)
     func getLastFeeling(completion: @escaping (Feeling?, Error?) -> Void)
     func getLastFeeling(forUser userId: String, completion: @escaping (Feeling?, Error?) -> Void)
-    func getFeelings(completion: @escaping ([FeelingResponse]?, Error?) -> Void)
+    func getPartnersFeelings(completion: @escaping ([FeelingResponse]?, Error?) -> Void)
     func listenToPartnerFeeling(partnerId: String, onChange: @escaping (Feeling?) -> Void) -> DatabaseHandle?
 }
 
@@ -146,31 +146,44 @@ class FirebaseDatabaseService: DatabaseServiceProtocol {
         }
     }
 
-    func getFeelings(completion: @escaping ([FeelingResponse]?, Error?) -> Void) {
+    func getPartnersFeelings(completion: @escaping ([FeelingResponse]?, Error?) -> Void) {
         guard let userPath = userPath else {
             completion(nil, NSError(domain: "FirebaseService", code: 401, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"]))
             return
         }
 
-        userPath.child("feelings").observeSingleEvent(of: .value) { snapshot, _ in
-
-            guard let feelingsData = snapshot.value as? [String: Any] else {
+        getPartner { partnerId, error in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            
+            guard let partnerId = partnerId else {
                 completion(nil, nil)
                 return
             }
+            
+            let partnerRef = Database.database().reference().child("users/\(partnerId)/feelings")
+            
+            partnerRef.observeSingleEvent(of: .value) { snapshot, _ in
+                guard let feelingsData = snapshot.value as? [String: Any] else {
+                    completion(nil, nil)
+                    return
+                }
 
-            let feelingResponses = feelingsData.compactMap { value -> FeelingResponse? in
-                let uuid = value.key
-                
-                guard let data = value.value as? [String: Any],
-                      let name = data["name"] as? String,
-                      let timestamp = data["timestamp"] as? String,
-                      let feeling = Feeling(rawValue: name)
-                else { return nil }
-                return FeelingResponse(id: UUID(uuidString: uuid) ?? UUID(), feeling: feeling, timestamp: timestamp)
+                let feelingResponses = feelingsData.compactMap { value -> FeelingResponse? in
+                    let uuid = value.key
+                    
+                    guard let data = value.value as? [String: Any],
+                          let name = data["name"] as? String,
+                          let timestamp = data["timestamp"] as? Int,
+                          let feeling = Feeling(rawValue: name)
+                    else { return nil }
+                    return FeelingResponse(id: UUID(uuidString: uuid) ?? UUID(), feeling: feeling, timestamp: timestamp)
+                }
+
+                completion(feelingResponses, nil)
             }
-
-            completion(feelingResponses, nil)
         }
     }
 
