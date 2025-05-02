@@ -29,7 +29,6 @@ final class FeelingHistoryViewModel {
         
         for feeling in feelings {
             let date = Date(timeIntervalSince1970: Double(feeling.timestamp / 1000))
-            print(date)
             let startOfDay = calendar.startOfDay(for: date)
             let label: String
             if calendar.isDate(startOfDay, inSameDayAs: today) {

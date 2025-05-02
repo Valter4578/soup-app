@@ -8,9 +8,14 @@
 import SwiftUI
 
 struct FeelingHistoryView: View {
+    // MARK: - Dependencies
     @State private var viewModel: FeelingHistoryViewModel
-    @Environment(FirebaseDatabaseService.self) var databaseService
+    @Environment(FirebaseDatabaseService.self) private var databaseService
+    @Environment(ThemeManager.self) private var themeManager
 
+    // MARK: - Properties
+    @Environment(\.dismiss) private var dismiss
+    
     // MARK: - Init
 
     init() {
@@ -27,7 +32,7 @@ struct FeelingHistoryView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Feeling.happy.colorScheme.primary
+                themeManager.currentScheme.primary
                     .ignoresSafeArea()
 
                 ScrollView(.vertical) {
@@ -50,9 +55,13 @@ struct FeelingHistoryView: View {
             }
             .navigationTitle("Emotion history")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden()
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Image("back")
+                        .onTapGesture {
+                            dismiss() 
+                        }
                 }
 
                 ToolbarItem(placement: .topBarTrailing) {
