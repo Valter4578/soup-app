@@ -29,11 +29,23 @@ struct FeelingHistoryView: View {
             ZStack {
                 Feeling.happy.colorScheme.primary
                     .ignoresSafeArea()
-//
-                LazyVStack {
-                    ForEach(viewModel.feelings) { response in
-                        FeelingHistoryCellView(feelingResponse: response, formattedTimeString: viewModel.convertTimestampToDateString(timestamp: response.timestamp))
+
+                ScrollView(.vertical) {
+                    LazyVStack(spacing: 24) {
+                        ForEach(viewModel.feelingsByDate, id: \.date) { section in
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text(section.date)
+                                    .font(.system(size: 28, weight: .bold))
+                                    .foregroundColor(.white)
+                                    .padding(.bottom, 4)
+                                ForEach(section.feelings) { response in
+                                    FeelingHistoryCellView(feelingResponse: response, formattedTimeString: viewModel.convertTimestampToDateString(timestamp: response.timestamp))
+                                }
+                            }
+                            .padding(.bottom, 8)
+                        }
                     }
+                    .padding(.horizontal, 16)
                 }
             }
             .navigationTitle("Emotion history")
