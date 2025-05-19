@@ -12,13 +12,13 @@ struct ButtonView: View {
 
     var withStroke: Bool = false
     var action: () -> Void
-    var label: String
+    var text: String
     
     var body: some View {
         Button {
             action()
         } label: {
-            Text(label)
+            Text(text)
                 .font(.system(size: 16, weight: .bold))
                 .foregroundStyle(.white)
                 .padding(.vertical, 15)
@@ -37,7 +37,7 @@ struct ButtonView: View {
         
         ButtonView(withStroke: true, action: {
             print("Button tapped")
-        }, label: "We've met")
+        }, text: "We've met")
         .ignoresSafeArea()
     }
 }

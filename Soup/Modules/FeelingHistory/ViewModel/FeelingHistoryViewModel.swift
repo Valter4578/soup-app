@@ -49,8 +49,8 @@ final class FeelingHistoryViewModel {
         }
         return sorted.map { (date: $0.key, feelings: $0.value.sorted { $0.timestamp > $1.timestamp }) }
     }
+    
     // MARK: - Init
-
     init(databaseService: DatabaseServiceProtocol? = nil) {
         self.databaseService = databaseService
     }

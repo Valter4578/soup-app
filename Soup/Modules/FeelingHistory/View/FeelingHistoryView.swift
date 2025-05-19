@@ -79,4 +79,6 @@ struct FeelingHistoryView: View {
 
 #Preview {
     FeelingHistoryView()
+        .environment(FirebaseDatabaseService())
+        .environment(ThemeManager(databaseService: FirebaseDatabaseService()))
 }

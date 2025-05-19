@@ -26,6 +26,11 @@ protocol DatabaseServiceProtocol {
     func getLastFeeling(forUser userId: String, completion: @escaping (Feeling?, Error?) -> Void)
     func getPartnersFeelings(completion: @escaping ([FeelingResponse]?, Error?) -> Void)
     func listenToPartnerFeeling(partnerId: String, onChange: @escaping (Feeling?) -> Void) -> DatabaseHandle?
+
+    // Timer managment
+    func updateMeetingDate(_ date: Date)
+    func getMeetingDate(completion: @escaping (Date?, Error?) -> Void) 
+    func listenToMeetingDateChanges(onChange: @escaping (Date?) -> Void) -> DatabaseHandle?
 }
 
 @Observable
@@ -157,14 +162,14 @@ class FirebaseDatabaseService: DatabaseServiceProtocol {
                 completion(nil, error)
                 return
             }
-            
+
             guard let partnerId = partnerId else {
                 completion(nil, nil)
                 return
             }
-            
+
             let partnerRef = Database.database().reference().child("users/\(partnerId)/feelings")
-            
+
             partnerRef.observeSingleEvent(of: .value) { snapshot, _ in
                 guard let feelingsData = snapshot.value as? [String: Any] else {
                     completion(nil, nil)
@@ -173,7 +178,7 @@ class FirebaseDatabaseService: DatabaseServiceProtocol {
 
                 let feelingResponses = feelingsData.compactMap { value -> FeelingResponse? in
                     let uuid = value.key
-                    
+
                     guard let data = value.value as? [String: Any],
                           let name = data["name"] as? String,
                           let timestamp = data["timestamp"] as? Int,
@@ -209,6 +214,66 @@ class FirebaseDatabaseService: DatabaseServiceProtocol {
 
             let feeling = Feeling(rawValue: name)
             completion(feeling, nil)
+        }
+    }
+
+    func updateMeetingDate(_ date: Date) {
+        guard let userPath = userPath else {
+            print("Error: User not authenticated")
+            return
+        }
+
+        // Convert Date to timestamp (milliseconds since 1970)
+        let timestamp = Int(date.timeIntervalSince1970 * 1000)
+
+        // Update meeting date for current user
+        userPath.child("meetingDate").setValue(timestamp)
+
+        // Update meeting date for partner as well
+        getPartner { partnerId, error in
+            if let error = error {
+                print("Error getting partner: \(error.localizedDescription)")
+                return
+            }
+
+            guard let partnerId = partnerId else { return }
+
+            self.defaultPath?.child("users/\(partnerId)/meetingDate").setValue(timestamp)
+        }
+    }
+
+    func getMeetingDate(completion: @escaping (Date?, Error?) -> Void) {
+        guard let userPath = userPath else {
+            completion(nil, NSError(domain: "FirebaseService", code: 401, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"]))
+            return
+        }
+
+        userPath.child("meetingDate").observeSingleEvent(of: .value) { snapshot, _ in
+            guard let timestamp = snapshot.value as? Int else {
+                completion(nil, NSError(domain: "FirebaseService", code: 404, userInfo: [NSLocalizedDescriptionKey: "Meeting date not found"]))
+                return
+            }
+
+            // Convert timestamp back to Date
+            let date = Date(timeIntervalSince1970: TimeInterval(timestamp) / 1000)
+            completion(date, nil)
+        }
+    }
+
+    // Function to listen for meeting date changes in real-time
+    func listenToMeetingDateChanges(onChange: @escaping (Date?) -> Void) -> DatabaseHandle? {
+        guard let userPath = userPath else {
+            return nil
+        }
+
+        return userPath.child("meetingDate").observe(.value) { snapshot, _ in
+            guard let timestamp = snapshot.value as? Int else {
+                onChange(nil)
+                return
+            }
+
+            let date = Date(timeIntervalSince1970: TimeInterval(timestamp) / 1000)
+            onChange(date)
         }
     }
 
